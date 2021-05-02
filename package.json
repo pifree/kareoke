@@ -1,0 +1,24 @@
+{
+  "name": "api-free",
+  "version": "1.0.0",
+  "description": "Middle man of all APIs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev-build": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pifree/api-free.git"
+  },
+  "author": "pifree",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pifree/api-free/issues"
+  },
+  "homepage": "https://github.com/pifree/api-free#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.12.7"
+  }
+}

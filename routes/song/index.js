@@ -3,46 +3,80 @@ const router = express.Router()
 const connect = require('../../database')
 const songsInfo = require('../../database/schemes/song-info')
 const utils = require('../../utils')
+var songs = []
+var titles = {'youtube': [], 'spotify': []}
 
 router.get('/spotify', async (req, res) => {
     const { type, q } = req.query;
+    var data = 404
+    await getSongs()
     switch (type) {
         case 'id':
-            console.log(`ID lookup id: ${q}`)
+            for (let i = 0; i < songs.length; i++){
+                if (songs[i].spotify.id == q) {
+                    data = songs[i]
+                    break
+                } 
+            }
+            res.send(data)
             break;
         case 'title':
-            const data = await search(q, 'spotify')
+            data = await search(q, 'spotify')
             res.send(data)
             break;
     }
 })
 
-router.get('/youtube', (req, res) => {
+router.get('/youtube', async (req, res) => {
     const { type, q } = req.query;
+    var data = 404
+    await getSongs()
     switch (type) {
         case 'id':
-            console.log(`ID lookup id: ${q}`)
+            for (let i = 0; i < songs.length; i++){
+                if (songs[i].youtube.id == q) {
+                    data = songs[i]
+                    break
+                } 
+            }
+            res.send(data)
             break;
         case 'title':
-            console.log(`Title lookup title: ${q}`)
+            data = await search(q, 'youtube')
+            res.send(data)
             break;
     }
-    res.sendStatus(200)
 })
 
-router.get('/random', (req, res) => {
-    res.send('Random bir şarkı')
+router.get('/random', async (req, res) => {
+    await getSongs()
+    res.send(songs[Math.floor((Math.random() * songs.length))])
 })
 
 async function search(query, type) {
-    console.log('Starting...')
-    const start = Date.now()
-    const mongoose = await connect()
-    const songs = await songsInfo.find({})
-    const ms = Date.now() - start
-    console.log(`Getting documents ended, ${ms}ms for ${songs.length} doc.`)
-    mongoose.connection.close()
-    return ms
+    var song
+    switch (type) {
+        case 'youtube':
+            song = utils.distanceSearch(titles.youtube, query, songs)
+            break;
+        case 'spotify':
+            song = utils.distanceSearch(titles.spotify, query, songs)
+            break;
+    }
+    if (song == null || song == undefined) return 404
+    return song
+}
+
+async function getSongs() {
+    if (songs.length <= 0) {
+        const mongoose = await connect()
+        songs = await songsInfo.find({})
+        mongoose.connection.close()
+        for (let i = 0; i < songs.length; i++){
+            titles.youtube.push(songs[i].youtube.title)
+            titles.spotify.push(songs[i].spotify.title)
+        }
+    }
 }
 
 module.exports = router

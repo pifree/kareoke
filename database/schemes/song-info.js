@@ -37,4 +37,4 @@ const song = mongoose.Schema({
   "lyrics": String
 })
 
-module.exports = mongoose.model("tests", song)
+module.exports = mongoose.model("song-infos", song)

@@ -35,40 +35,12 @@ router.get('/random', (req, res) => {
 })
 
 async function search(query, type) {
-    
-    await connect().then(async (mongoose) => {
-        const songs = await songsInfo.find({})
-        console.log(songs)
-        mongoose.connection.close()
-    })
-    
-    /*const mongoose = await connect()
-    const songs = await songsscheme.find({})
-    console.log(songs)
-    try {
-        const titles = []
-        switch (type) {
-            case 'youtube':
-                for (let i = 0; i < songs.length; i++) {
-                    titles.push(songs[i].youtube.title)
-                }
-                break;
-            case 'spotify':
-                for (let i = 0; i < songs.length; i++) {
-                    titles.push(songs[i].spotify.title)
-                }
-                break;
-        }
-        const result = utils.distanceSearch(titles, query, songs)
-        console.log(result)
-        return result
-    } catch (error) {
-        console.log(error)
-        return 500
-    } finally {
-        mongoose.connection.close()
-    } */
-
+    console.log('Starting...')
+    const start = Date.now()
+    const mongoose = await connect()
+    const songs = await songsInfo.find({})
+    console.log(`Getting documents ended, ${Date.now() - start}ms for ${songs.length} doc.`)
+    mongoose.connection.close()
 }
 
 module.exports = router

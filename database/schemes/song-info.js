@@ -6,35 +6,35 @@ const reqString = {
 }
 
 const song = mongoose.Schema({
-    "_id": reqString,
+    "_id": String,
   "youtube": {
-    "id": reqString,
-    "url": reqString,
-    "title": reqString,
-    "image": reqString,
+    "id": String,
+    "url": String,
+    "title": String,
+    "image": String,
     "channels": [
       {
-        "name": reqString,
-        "id": reqString
+        "name": String,
+        "id": String
       }
     ]
   },
   "spotify": {
-    "id": reqString,
-    "url": reqString,
-    "uri": reqString,
-    "title": reqString,
+    "id": String,
+    "url": String,
+    "uri": String,
+    "title": String,
     "length": Number,
     "artists": [
       {
-        "id": reqString,
-        "uri": reqString,
-        "url": reqString,
-        "name": reqString
+        "id": String,
+        "uri": String,
+        "url": String,
+        "name": String
       }
     ]
   },
-  "lyrics": reqString
+  "lyrics": String
 })
 
-module.exports = mongoose.model("song-info", song)
+module.exports = mongoose.model("tests", song)

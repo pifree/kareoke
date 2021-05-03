@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const connect = require('../../../database')
-const songsInfo = require('../../../database/schemes/song-info')
-const utils = require('../../../utils')
+const connect = require('../../database')
+const songsInfo = require('../../database/schemes/song-info')
+const utils = require('../../utils')
 
 router.get('/spotify', async (req, res) => {
     const { type, q } = req.query;

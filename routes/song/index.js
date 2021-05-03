@@ -39,8 +39,10 @@ async function search(query, type) {
     const start = Date.now()
     const mongoose = await connect()
     const songs = await songsInfo.find({})
-    console.log(`Getting documents ended, ${Date.now() - start}ms for ${songs.length} doc.`)
+    const ms = Date.now() - start
+    console.log(`Getting documents ended, ${ms}ms for ${songs.length} doc.`)
     mongoose.connection.close()
+    return ms
 }
 
 module.exports = router

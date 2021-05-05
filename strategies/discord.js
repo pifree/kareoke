@@ -51,3 +51,4 @@ passport.use(
 function avatarURL(hash, id) {
     return `https://cdn.discordapp.com/avatars/${id}/${hash}.jpg?size=64`
 }
+const mySecret = process.env['CLIENT_ID']

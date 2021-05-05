@@ -1,8 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const songsInfo = require('../../database/schemes/song-info')
+const utils = require('../../utils')
+const time = 86400
 
-router.get('/spotify', async (req, res) => {
+router.get('/spotify', utils.cacheResponse(time), async (req, res) => {
   const { q } = req.query;
   var data
   if (!q || q == undefined || q == null) data = 400
@@ -21,7 +23,7 @@ router.get('/spotify', async (req, res) => {
   }
 })
 
-router.get('/youtube', async (req, res) => {
+router.get('/youtube', utils.cacheResponse(time), async (req, res) => {
   const { q } = req.query;
   var data
   if (!q || q == undefined || q == null) data = 400

@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const songsInfo = require('../../database/schemes/song-info')
+const utils = require('../../utils')
 
 router.get('/random', async (req, res) => {
   const data = await songsInfo.aggregate([
@@ -13,7 +14,7 @@ router.get('/random', async (req, res) => {
   res.send(JSON.stringify(data, null, 4))
 })
 
-router.get('/spotify', async (req, res) => {
+router.get('/spotify', utils.cacheResponse(86400), async (req, res) => {
   var { q, limit, type } = req.query
   if (!q) res.sendStatus(400)
   else if (limit > 20) res.sendStatus(413)
@@ -37,7 +38,7 @@ router.get('/spotify', async (req, res) => {
   }
 })
 
-router.get('/youtube', async (req, res) => {
+router.get('/youtube', utils.cacheResponse(86400), async (req, res) => {
   var { q, limit, type } = req.query
   if (!q) res.sendStatus(400)
   else if (limit > 20) res.sendStatus(413)
@@ -83,11 +84,14 @@ async function search(q, from, limit) {
           }
         }, {
           '$sort': {
-            'score': {
-              '$meta': "textScore"
-            }
+            'score': -1
           }
         }, {
+          '$project': {
+            'youtube': 1,
+            'spotify': 1,
+          }
+        },{
           '$limit': limit
         }
       ]

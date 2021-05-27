@@ -116,6 +116,7 @@ const request = app => async (req, res, next) => {
   const request = { 'path': req._parsedUrl.pathname, 'method': req.method, 'auth': req.header("Authorization") }
 
   if (request.path.includes('/auth/')) return next()
+  else if (request.path == '/') return next()
   else if (!request.auth) return res.status(400).send({msg: 'Request header doesn\'t have \'Authorization\' information'})
   else {
     const user = await userScheme.findOne({ 'keys._id': request.auth })

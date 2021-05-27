@@ -5,7 +5,7 @@ module.exports = async () => {
     keepAlive: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: true
+    useFindAndModify: false
   });
   return mongoose;
 }

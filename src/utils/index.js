@@ -1,4 +1,16 @@
-/** 
+//* ---------------------------------------- Logging ----------------------------------------------------
+const fs = require('fs');
+const chalk = require('chalk')
+const { log } = console
+//* ------------------------------------------ Cache sistemi --------------------------------------------
+const NodeCache = require('node-cache')
+const cache = new NodeCache()
+//* --------------------------------------- Request -----------------------------------------------------
+const expressListEndpoints = require('express-list-endpoints')
+const userScheme = require('../database/schemes/user')
+//* --------------------------------------- Search ------------------------------------------------------
+
+/**
  * Distance search algoritması, eğer obje değeri verilirse obje döndürür
  * @param {Array} arr Bakılacak değerler dizesi 
  * @param {any} inputvalue Aranacak değer, türü bakılacak değerler ile aynı olmalı
@@ -67,8 +79,6 @@ function distanceSearch(arr, inputvalue, objects) {
     return costs[val2.length];
   }
 //* ------------------------------------------ Cache sistemi ---------------------------------------------
-const NodeCache = require('node-cache')
-const cache = new NodeCache()
 
 const cacheResponse = duration => (req, res, next) => {
   if (req.method != 'GET') {
@@ -89,5 +99,53 @@ const cacheResponse = duration => (req, res, next) => {
     next()
   }
 }
+//* ---------------------------------------- Logging ---------------------------------------------------
 
-module.exports = {distanceSearch, cacheResponse}
+function error(err) {
+  log(chalk.red(err))
+  fs.writeFileSync(`./log/error/error-${Date.now()}.txt`, err.toString(), { flag: 'a' })
+}
+
+function info(info) {
+  log(chalk.yellow(info))
+  fs.writeFileSync(`./log/info/info-${Date.now()}.txt`, info.toString(), { flag: 'a' })
+}
+//* --------------------------------------- Request -----------------------------------------------------
+const request = app => async (req, res, next) => {
+  const endpoints = expressListEndpoints(app)
+  const request = { 'path': req._parsedUrl.pathname, 'method': req.method, 'auth': req.header("Authorization") }
+
+  if (request.path.includes('/auth/')) return next()
+  else if (!request.auth) return res.status(400).send({msg: 'Request header doesn\'t have \'Authorization\' information'})
+  else {
+    const user = await userScheme.findOne({ 'keys._id': request.auth })
+    if (!user) return res.status(401).send({msg: 'API key you entered is not valid'})
+  }
+
+  var flag = 0
+  for (let i = 0; i < endpoints.length; i++) {
+    if (request.path == endpoints[i].path) {
+      flag = 1
+      for (let l = 0; l < endpoints[i].methods.length; l++) {
+        if (request.method == endpoints[i].methods[l]) {
+          flag = 2
+          break
+        }
+      }
+      break
+    }
+  }
+  switch (flag) {
+    case 0:
+      res.status(404).send({msg: 'The URI requested is not valid'})
+      break
+    case 1:
+      res.status(405).send({msg: 'The URI method is not valid'})
+      break
+    case 2:
+      next()
+      break
+  }
+}
+
+module.exports = {distanceSearch, cacheResponse, error, info, request}

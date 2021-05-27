@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const songsInfo = require('../../database/schemes/song-info')
-const utils = require('../../utils')
+const songsInfo = require('../../../database/schemes/song-info')
+const utils = require('../../../utils')
 
 router.get('/random', async (req, res) => {
   const data = await songsInfo.aggregate([

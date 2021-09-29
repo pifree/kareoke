@@ -3,7 +3,7 @@ const encodeurl = require('encodeurl')
 const cheerio = require('cheerio')
 const axios = require('axios')
 
-router.get('/lyrics', async (req, res) => {
+router.get('/', async (req, res) => {
     if (!req.query.q) return res.status(400).send('You need to send query for search')
     try {
         const response = await axios.get(`https://api.genius.com/search?q=${encodeurl(req.query.q)}`, { headers: { "Authorization": `Bearer nEkoa5hvUWcscXor9utBB8wt6EDXTknzS5lmSjmzmJRNNqPfxLXmbzb7_GzTwZC9` } })

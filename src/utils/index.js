@@ -103,12 +103,12 @@ const cacheResponse = duration => (req, res, next) => {
 
 function error(err) {
   log(chalk.red(err))
-  fs.writeFileSync(`./log/error/error-${Date.now()}.txt`, err.toString(), { flag: 'a' })
+  //fs.writeFileSync(`./log/error/error-${Date.now()}.txt`, err.toString(), { flag: 'a' })
 }
 
 function info(info) {
   log(chalk.yellow(info))
-  fs.writeFileSync(`./log/info/info-${Date.now()}.txt`, info.toString(), { flag: 'a' })
+  //fs.writeFileSync(`./log/info/info-${Date.now()}.txt`, info.toString(), { flag: 'a' })
 }
 //* --------------------------------------- Request -----------------------------------------------------
 const request = app => async (req, res, next) => {

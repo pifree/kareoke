@@ -32,6 +32,5 @@ app.use(passport.session())
 app.use(utils.request(app))
 app.use(require('cors')())
 
-app.use('/api', require('./routes/api'))
+app.use('/', require('./routes/api'))
 app.use('/auth', require('./routes/auth'))
-app.get('/', (req, res) => {res.sendStatus(200)})

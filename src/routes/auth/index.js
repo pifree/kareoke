@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     if (req.user) {
         res.send(req.user)
     } else {
-        res.status(401).send({msg: "You are not authorized, you need to go '/auth/discord' endpoint "})
+        res.redirect('/auth/discord')
     }
 })
 

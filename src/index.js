@@ -3,7 +3,7 @@ const app = express();
 
 const chalk = require('chalk');
 const cors = require('cors');
-require('dotenv').config();
+if (process.env.ENV != 'production') require('dotenv').config();
 
 app.listen(process.env.PORT, () => { console.log(chalk.greenBright('[API] Started listening on ' + process.env.PORT)) })
 

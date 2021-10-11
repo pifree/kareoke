@@ -1,24 +1,5 @@
 const mongoose = require('mongoose');
 
-const paths = new mongoose.Schema({
-    '_id': {
-        type: String,
-        required: true
-    },
-    'count': {
-        type: Number,
-        required: true,
-    }
-})
-
-const keys = new mongoose.Schema({
-    '_id': {
-        type: String,
-        required: true
-    },
-    'paths': [paths],
-})
-
 const userSchema = new mongoose.Schema({
     '_id': {
         type: String,
@@ -33,7 +14,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     'avatar': String,
-    'keys': [keys]
+    'porjects': [String]
 }, {timestamps: true})
 
 module.exports = mongoose.model('users', userSchema)

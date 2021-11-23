@@ -40,7 +40,7 @@ router.get('/spotify', cache(21600000), async (req, res) => {
 
 
   const data = await database.findOne({ 'spotify.id': id }).catch((err) => { return res.sendStatus(500) })
-
+  console.log(data)
   if (data) {
     res.header("Content-Type", 'application/json')
     res.send(JSON.stringify({

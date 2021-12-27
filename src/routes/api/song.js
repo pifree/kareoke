@@ -44,8 +44,7 @@ router.get('/spotify', cache(21600000), async (req, res) => {
   if (data) {
     res.header("Content-Type", 'application/json')
     res.send(JSON.stringify({
-      'youtube': data.youtube,
-      'spotify': data.spotify
+      'youtube': data.youtube
     }, null, 4))
   } else {
     res.status(404).send({'msg': 'We couldn\'t find a data with this id', 'status_code': 404})
@@ -63,7 +62,6 @@ router.get('/youtube', cache(21600000), async (req, res) => {
   if (data) {
     res.header("Content-Type", 'application/json')
     res.send(JSON.stringify({
-      'youtube': data.youtube,
       'spotify': data.spotify
     }, null, 4))
   } else {

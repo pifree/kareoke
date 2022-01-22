@@ -43,7 +43,7 @@ router.get('/spotify', async (req, res) => {
   console.log(data)
   if (data) {
     res.header("Content-Type", 'application/json')
-    res.send(JSON.stringify({
+    res.status(200).send(JSON.stringify({
       'youtube': data.youtube
     }, null, 4))
   } else {
@@ -61,7 +61,7 @@ router.get('/youtube', async (req, res) => {
 
   if (data) {
     res.header("Content-Type", 'application/json')
-    res.send(JSON.stringify({
+    res.status(200).send(JSON.stringify({
       'spotify': data.spotify
     }, null, 4))
   } else {
@@ -81,7 +81,7 @@ router.get('/search', async (req, res) => {
   const data = await search(database, q, limit)
 
   if (data.length >= 1) {
-    res.send(JSON.stringify( limit == 1 ? data[0] : data, null, 4))
+    res.status(200).send(JSON.stringify( limit == 1 ? data[0] : data, null, 4))
   }
   else res.status(404).send({ 'msg': `We can't find any song with this query, ${q}`, 'status_code': 404 })
 })

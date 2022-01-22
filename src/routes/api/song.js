@@ -33,7 +33,7 @@ router.get('/random', async (req, res) => {
   res.send(JSON.stringify(data[0], null, 4))
 })
 
-router.get('/spotify', cache(21600000), async (req, res) => {
+router.get('/spotify', async (req, res) => {
   const { id } = req.query
 
   if (!id) return res.status(400).send({'msg': 'You must provide a id', 'status_code': 400})
@@ -51,7 +51,7 @@ router.get('/spotify', cache(21600000), async (req, res) => {
   }
 })
 
-router.get('/youtube', cache(21600000), async (req, res) => {
+router.get('/youtube', async (req, res) => {
   const { id } = req.query
 
   if (!id) return res.status(400).send({'msg': 'You must provide a id', 'status_code': 400})
@@ -69,7 +69,7 @@ router.get('/youtube', cache(21600000), async (req, res) => {
   }
 })
 
-router.get('/search', cache(21600000), async (req, res) => {
+router.get('/search', async (req, res) => {
   var { q, limit } = req.query
   res.header("Content-Type", 'application/json')
 

@@ -13,7 +13,7 @@ if (process.env.ENV != 'production') {
         release: require('../package.json').name + '@' + require('../package.json').version,  
         tracesSampleRate: 1.0,
         integarations: [
-            new Sentry.Integarations.Http({tracing: true}),
+            new Sentry.Integrations.Http({ tracing: true }),
             new Tracing.Integarations.Express({app})
         ]
     });

@@ -14,7 +14,7 @@ if (process.env.ENV != 'production') {
         tracesSampleRate: 1.0,
         integarations: [
             new Sentry.Integrations.Http({ tracing: true }),
-            new Tracing.Integarations.Express({app})
+            new Tracing.Integrations.Express({app})
         ]
     });
 }

@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const { db, songInfo } = require('../../database')
-const cache = require('../../utils/cache')
+const yt = require('../../utils/youtube')
+const spoti = require('../../utils/spotify')
+const {v4} = require('uuid')
 
 const database = new db()
 
@@ -38,16 +40,26 @@ router.get('/spotify', async (req, res) => {
 
   if (!id) return res.status(400).send({'msg': 'You must provide a id', 'status_code': 400})
 
-
   const data = await database.findOne({ 'spotify.id': id }).catch((err) => { return res.sendStatus(500) })
-  console.log(data)
+  
   if (data) {
     res.header("Content-Type", 'application/json')
     res.status(200).send(JSON.stringify({
       'youtube': data.youtube
     }, null, 4))
   } else {
-    res.status(404).send({'msg': 'We couldn\'t find a data with this id', 'status_code': 404})
+    const key = await spoti.getKey(process.env.CLIENTID, process.env.CLIENTSECRET)
+    const track = await spoti.getTrack(id, key.access_token)
+    if (typeof(track) === 'number') {
+      res.header("Content-Type", 'application/json')
+      res.status(track).send({'msg': 'We couldn\'t find a data with this id', 'status_code': track})
+    } else {
+      const video = await yt.SearchUf(track.artists[0].name + ' - ' + track.title)
+
+      res.header("Content-Type", 'application/json')
+      res.status(200).send(JSON.stringify(video))
+      database.save({_id: v4(), youtube: video, spotify: track, lyrics: ''})
+    }
   }
 })
 
@@ -65,6 +77,7 @@ router.get('/youtube', async (req, res) => {
       'spotify': data.spotify
     }, null, 4))
   } else {
+    res.header("Content-Type", 'application/json')
     res.status(404).send({'msg': 'We couldn\'t find a data with this id', 'status_code': 404})
   }
 })

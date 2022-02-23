@@ -1,6 +1,6 @@
 {
   "name": "api-free",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "engines": {
     "node": "16.x"
   },
@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/pifree/api-free#readme",
   "dependencies": {
+    "@sentry/node": "^6.17.9",
+    "@sentry/tracing": "^6.17.9",
     "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.10",
     "cors": "^2.8.5",
@@ -28,7 +30,9 @@
     "express-list-endpoints": "^6.0.0",
     "mongoose": "^6.1.7",
     "node-cache": "^5.1.2",
-    "node-fetch": "^2.6.5"
+    "node-fetch": "^2.6.5",
+    "uuid": "^8.3.2",
+    "ytsr": "^3.6.0"
   },
   "devDependencies": {
     "dotenv": "^10.0.0"

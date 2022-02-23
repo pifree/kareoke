@@ -24,6 +24,7 @@ const song = mongoose.Schema({
     "url": String,
     "uri": String,
     "title": String,
+    "image": String,
     "length": Number,
     "artists": [
       {

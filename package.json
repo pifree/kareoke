@@ -26,7 +26,7 @@
     "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.10",
     "cors": "^2.8.5",
-    "express": "^4.17.2",
+    "express": "^4.17.3",
     "express-list-endpoints": "^6.0.0",
     "mongoose": "^6.1.7",
     "node-cache": "^5.1.2",

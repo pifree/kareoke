@@ -19,17 +19,16 @@ router.get('/genius', cache(21600000), async (req, res) => {
 
     try {
         let $ = await cheerio.load(htmlPage)
-        var lyric
         switch (req.query.type) {
             case 'html':
-                lyric = await $('div.lyrics').html()
+                var lyric = await $('div.lyrics').html()
+                res.send(lyric)
                 break;
             case 'text':
-                lyric = await $('div.lyrics').text()
+                var lyric = await $('div.lyrics').text()
+                res.send(lyric)
                 break;
         }
-        console.log('Lyric',lyric)
-        res.send(lyric)
     } catch (e) {
         res.sendStatus(500)
         console.log(e)

@@ -12,7 +12,7 @@ router.get('/genius', cache(21600000), async (req, res) => {
 
     if (data.meta.status != 200) return res.status(data.meta.status).send({ 'msg': `Couldn't find a song with ${req.query.q}`, 'status_code': 404 })
 
-    const htmlResponse = await fetch('https://genius.com' + data.response.hits[0].result.path)
+    const htmlResponse = await fetch('https://genius.com/Dario-moreno-her-aksam-votka-rak-ve-sarap-lyrics')
     const htmlPage = await htmlResponse.text()
 
     try {

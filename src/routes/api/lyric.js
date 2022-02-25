@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const cheerio = require('cheerio')
+/*const pupet = require('puppeteer')
+const cheer = require('cheerio')
 const fetch = require('node-fetch')
 const cache = require('../../utils/cache')
 
@@ -12,26 +13,29 @@ router.get('/genius', cache(21600000), async (req, res) => {
 
     if (data.meta.status != 200) return res.status(data.meta.status).send({ 'msg': `Couldn't find a song with ${req.query.q}`, 'status_code': 404 })
 
-    const htmlResponse = await fetch('https://genius.com' + data.response.hits[0].result.path)
-    const htmlPage = await htmlResponse.text()
-
     try {
-        let $ = cheerio.load(htmlPage)
-        var lyric
-        switch (req.query.type) {
-            case 'html':
-                lyric = await $('div.lyrics').html()
-                break;
-            case 'text':
-                lyric = await $('div.lyrics').text()
-                break;
+        const browser = await pupet.launch().catch(err => {})
+        console.log('Tarayıcı açıldı')
+        const page = await browser.newPage().catch(err => {})
+        console.log('Sayfa açıldı')
+        await page.goto(data.response.hits[0].result.url, {waitUnitl: 'networkidle'}).catch(err => {})
+        console.log(data.response.hits[0].result.url + ' adresi açıldı')
+
+        try {
+            const content = await page.content().catch(err => { })
+            console.log('İçerik alındı')
+            browser.close()
+            console.log('Tarayıcı kapatıldı')
+            res.send(content)
+            // Lyrics__Container-sc-1ynbvzw-6
+        } catch (e) {
+            res.sendStatus(500)
+            console.log(e)
         }
-        res.send(lyric)
-    } catch (e) {
-        res.sendStatus(500)
-        console.log(e)
+    } catch (err) {
+
     }
  
-})
+})*/
 
 module.exports = router

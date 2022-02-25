@@ -14,6 +14,7 @@ router.get('/genius', cache(21600000), async (req, res) => {
 
     const htmlResponse = await fetch('https://genius.com' + data.response.hits[0].result.path)
     const htmlPage = await htmlResponse.text()
+    console.log(htmlPage)
 
     try {
         let $ = await cheerio.load(htmlPage)
@@ -26,6 +27,7 @@ router.get('/genius', cache(21600000), async (req, res) => {
                 lyric = await $('div.lyrics').text()
                 break;
         }
+        console.log(lyric)
         res.send(lyric)
     } catch (e) {
         res.sendStatus(500)

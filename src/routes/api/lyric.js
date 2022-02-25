@@ -3,7 +3,7 @@ const cheerio = require('cheerio')
 const fetch = require('node-fetch')
 const cache = require('../../utils/cache')
 
-router.get('/genius', cache(21600000), async (req, res) => {
+router.get('/genius', async (req, res) => {
     if (!req.query.q) return res.status(400).send('You need to send query for search')
     else if (!req.query.type) req.query.type = 'text'
 
@@ -16,14 +16,14 @@ router.get('/genius', cache(21600000), async (req, res) => {
     const htmlPage = await htmlResponse.text()
 
     try {
-        let $ = await cheerio.load(htmlPage)
+        const $ = await cheerio.load(htmlPage)
         switch (req.query.type) {
             case 'html':
                 var lyric = await $('div.lyrics').html()
                 res.send(lyric)
                 break;
             case 'text':
-                var lyric = await $('.lyrics').text()
+                var lyric = $('.lyrics').text()
                 console.log('lyric', lyric)
                 res.send(lyric)
                 break;

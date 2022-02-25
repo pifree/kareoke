@@ -16,7 +16,7 @@ router.get('/genius', cache(21600000), async (req, res) => {
     const htmlPage = await htmlResponse.text()
 
     try {
-        let $ = cheerio.load(htmlPage)
+        let $ = await cheerio.load(htmlPage)
         var lyric
         switch (req.query.type) {
             case 'html':

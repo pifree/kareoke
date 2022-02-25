@@ -25,7 +25,7 @@ router.get('/genius', cache(21600000), async (req, res) => {
                 res.send(lyric)
                 break;
             case 'text':
-                var lyric = await $('div.song_body column_layout div.column_layout-column_span column_layout-column_span--primary div.song_body-lyrics div div.lyrics').text()
+                var lyric = await $('.lyrics').text()
                 res.send(lyric)
                 break;
         }

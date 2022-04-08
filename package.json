@@ -22,7 +22,7 @@
   "homepage": "https://github.com/pifree/api-free#readme",
   "dependencies": {
     "@sentry/node": "^6.17.9",
-    "@sentry/tracing": "^6.17.9",
+    "@sentry/tracing": "^6.19.6",
     "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.10",
     "cors": "^2.8.5",

@@ -4,7 +4,7 @@ const cheer = require('cheerio')
 const fetch = require('node-fetch')
 const cache = require('../../utils/cache')
 
-router.get('/genius', cache(21600000), async (req, res) => {
+router.get('/genius', async (req, res) => {
     if (!req.query.q) return res.status(400).send('You need to send query for search')
     else if (!req.query.type) req.query.type = 'text'
 
@@ -33,6 +33,7 @@ router.get('/genius', cache(21600000), async (req, res) => {
             console.log(e)
         }
     } catch (err) {
+
 
     }
  
